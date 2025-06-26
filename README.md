@@ -8,6 +8,8 @@
 -   **[VSCode](https://code.visualstudio.com/download)**
 -   **[DBeaver](https://dbeaver.io/download)**
 
+### Documentação
+
 -   **[PHP 8+](https://www.php.net/manual/en)**
 -   **[MYSQL 5+](https://dev.mysql.com/doc)**
 -   **[Laravel 11+](https://laravel.com/docs/11.x)**
