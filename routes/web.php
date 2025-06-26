@@ -7,17 +7,8 @@ use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\CursoController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layout');
 });
-
-Route::get('/index/{nome?}', function (?string $nome=null) {
-    return view('welcome', [
-        'title' => 'Welcome to My Website',
-        'description' => 'This is a sample Laravel application.',
-        'nome' => $nome,
-    ]);
-})->name('site.index');
-
 
 // $alunos = [
 //     ['id' => 1, 'nome' => 'João'],

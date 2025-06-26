@@ -20,5 +20,9 @@
                 </ul>
             </nav>
         </div>
+        <div style="border: 2px solid #ccc;">
+            <h1 class="text-2xl font-bold mb-4">@yield('title')</h1>
+            @yield('content')
+        </div>
     </body>
 </html>
