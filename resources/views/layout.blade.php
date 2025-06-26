@@ -9,6 +9,8 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+
+        @vite('resources/css/app.css')
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
         <div class="max-w-2xl mx-auto">
@@ -20,8 +22,8 @@
                 </ul>
             </nav>
         </div>
-        <div style="border: 2px solid #ccc;">
-            <h1 class="text-2xl font-bold mb-4">@yield('title')</h1>
+        <div class="max-w-2xl m-auto">
+            <h1 class="text-2xl font-bold mb-4 bg-amber-100 py-1 px-2 rounded-md shadow">@yield('title')</h1>
             @yield('content')
         </div>
     </body>

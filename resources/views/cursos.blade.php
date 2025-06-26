@@ -9,7 +9,7 @@
     @if (isset($cursos))
     <ul>
         @foreach ($cursos as $curso)
-            <li>{{ $curso['id'] }}: {{ $curso['nome'] }}</li>
+            <li>{{ $curso['id'] }}: <a href="{{ route('curso.show',$curso['id']) }}">{{ $curso['nome'] }}</a></li>
         @endforeach
     </ul>
     @endif
