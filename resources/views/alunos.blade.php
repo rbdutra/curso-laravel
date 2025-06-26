@@ -14,7 +14,7 @@
     @if (isset($alunos))
     <ul>
         @foreach ($alunos as $aluno)
-            <li>{{ $aluno['id'] }}: {{ $aluno['nome'] }}</li>
+            <li>{{ $aluno['id'] }}: <a href="{{ route('aluno.show',$aluno['id']) }}">{{ $aluno['nome'] }}</a></li>
         @endforeach
     </ul>
     @endif
