@@ -1,0 +1,75 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table Status {
+  id integer [primary key]
+  descricao text
+  status_pai integer [ref: < Status.id]
+  created_at timestamp
+}
+Table Usuario {
+  id integer [primary key]
+  nome varchar
+  email varchar
+  cpf varchar
+  senha varchar
+  created_at timestamp
+}
+
+Table Instrutor {
+  id integer [primary key, ref: < Usuario.id]
+  created_at timestamp
+}
+
+Table Curso {
+  id integer [primary key]
+  titulo varchar
+  descricao text
+  created_at timestamp
+}
+
+Table Instrutores {
+  id integer [primary key]
+  curso_id integer [ref: < Curso.id]
+  instrutor_id integer [ref: < Instrutor.id]
+  created_at timestamp
+}
+
+// Ref Instrutores: Curso.id <> Instrutor.id
+
+Table Aluno {
+  id integer [primary key, ref: < Usuario.id]
+  created_at timestamp
+}
+
+Table Inscricao {
+  id integer [primary key]
+  curso_id integer [ref: < Curso.id]
+  aluno_id integer [ref: < Aluno.id]
+  status integer [ref: < Status.id]
+  created_at timestamp
+}
+
+Table Frequencia {
+  id integer [primary key]
+  curso_id integer [ref: < Curso.id]
+  aluno_id integer [ref: < Aluno.id]
+  data_frequencia date
+  status integer [ref: < Status.id]
+  created_at timestamp
+}
+
+Table Certificado {
+  id integer [primary key]
+  curso_id integer [ref: < Curso.id]
+  aluno_id integer [ref: < Aluno.id]
+  data_emissao date
+  status integer [ref: < Status.id]
+  created_at timestamp
+}
+
+// Ref curso_inscricao: Curso.id < Inscricao.curso_id
+// Ref aluno_inscricao: Aluno.id < Inscricao.aluno_id
+
+// Ref curso_frequencia: Curso.id < Frequencia.curso_id
+// Ref aluno_frequencia: Aluno.id < Frequencia.aluno_id
