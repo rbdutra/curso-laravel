@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\AlunoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\AlunoController;
+use App\Http\Controllers\CursoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,6 +41,12 @@ Route::get('/index/{nome?}', function (?string $nome=null) {
 //     ]);
 // });
 
+Route::group(['prefix' => 'aluno'], function () {
+    Route::get('/', [AlunoController::class, 'index'])->name('aluno.index');
+    Route::get('/{id}', [AlunoController::class, 'show'])->name('aluno.show');
+});
 
-Route::get('/alunos', [AlunoController::class, 'index']);
-Route::get('/aluno/{id}', [AlunoController::class, 'show']);
+Route::group(['prefix' => 'curso'], function () {
+    Route::get('/', [CursoController::class, 'index'])->name('curso.index');
+    Route::get('/{id}', [CursoController::class, 'show'])->name('curso.show');
+});
