@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlunoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,13 +14,15 @@ $alunos = [
     ['id' => 2, 'nome' => 'Maria'],
     ['id' => 3, 'nome' => 'Pedro'],
 ];
-Route::get('/alunos', function (Request $request) use ($alunos) {
-    return view('alunos', [
-        'alunos' => $alunos,
-    ]);
-});
+// Route::get('/alunos', function (Request $request) use ($alunos) {
+//     return view('alunos', [
+//         'alunos' => $alunos,
+//     ]);
+// });
 
-Route::get('/aluno/{id}', function (int $id)use ($alunos) {
+Route::get('/alunos', [AlunoController::class, 'index']);
+
+Route::get('/aluno/{id}', function (int $id) use ($alunos) {
     if(isset($alunos[$id-1]) === false) {
         abort(404, 'Aluno não encontrado');
     }
