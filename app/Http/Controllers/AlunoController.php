@@ -18,7 +18,7 @@ class AlunoController extends Controller
     public function show(int $id): View
     {
         $alunos = Aluno::all();
-        $aluno = $alunos = Aluno::find($id);;
+        $aluno = $alunos->find($id);
         return view('alunos', [
             'aluno' => $aluno,
             'alunos' => $alunos,
