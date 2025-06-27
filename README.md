@@ -19,3 +19,7 @@
 -   **[Filament 3+](https://filamentphp.com/docs/3.x/panels/installation)**
 -   **[Tailwindcss 3+](https://v3.tailwindcss.com/docs/installation)**
 -   **[Node.js](https://nodejs.org/docs/latest/api)**
+
+### Repositório Github
+
+-   **[Curso Laravel](https://github.com/rbdutra/curso-laravel)**

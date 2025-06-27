@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\CursoController;
+use App\Livewire\Counter;
 
 Route::get('/', function () {
     return view('layout');
@@ -41,3 +42,5 @@ Route::group(['prefix' => 'curso'], function () {
     Route::get('/', [CursoController::class, 'index'])->name('curso.index');
     Route::get('/{id}', [CursoController::class, 'show'])->name('curso.show');
 });
+
+Route::get('/counter', Counter::class)->name('counter');

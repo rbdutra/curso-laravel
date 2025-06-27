@@ -19,11 +19,12 @@
                 <ul class="flex space-x-4">
                     <li><a href="{{ route('aluno.index') }}" class="text-blue-500 hover:underline">Alunos</a></li>
                     <li><a href="{{ route('curso.index') }}" class="text-blue-500 hover:underline">Cursos</a></li>
+                    <li><a href="{{ route('counter') }}" class="text-blue-500 hover:underline">Alpine.js e Livewire</a></li>
                 </ul>
             </nav>
         </div>
         <div class="max-w-2xl m-auto">
-            <h1 class="text-2xl font-bold mb-4 bg-amber-100 py-1 px-2 rounded-md shadow">@yield('title')</h1>
+            <h1 class="text-lg font-bold mb-4 bg-amber-100 py-1 px-2 rounded-md shadow">@yield('title','Selecione uma opção')</h1>
             @yield('content')
         </div>
     </body>
