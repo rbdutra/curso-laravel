@@ -8,7 +8,9 @@ class Aluno extends Model
 {
     protected $table = 'alunos';
     protected $fillable = ['nome', 'endereco'];
-
+    protected $casts = [
+        'endereco' => 'array', // Assuming endereco is stored as a JSON array
+    ];
     public function inscricoes()
     {
         return $this->hasMany(Inscricao::class, 'aluno_id', 'id');
