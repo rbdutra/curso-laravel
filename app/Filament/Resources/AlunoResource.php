@@ -17,7 +17,7 @@ class AlunoResource extends Resource
 {
     protected static ?string $model = Aluno::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
@@ -25,9 +25,12 @@ class AlunoResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nome')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+
                 Forms\Components\RichEditor::make('endereco')
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 

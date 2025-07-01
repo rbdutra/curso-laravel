@@ -14,6 +14,6 @@ class Curso extends Model
     }
     public function alunos()
     {
-        return $this->belongsToMany(Aluno::class, 'inscricoes', 'curso_id', 'aluno_id');
+        return $this->belongsToMany(Aluno::class, 'inscricao', 'curso_id', 'aluno_id');
     }
 }
