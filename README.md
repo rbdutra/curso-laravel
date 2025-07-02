@@ -82,9 +82,7 @@
 
     > model
 
-        ```
         protected $fillable = ['aluno_id', 'curso_id', 'data_inscricao', 'matricula', 'situacao_id'];
-        ```
 
 -   Atualizar tabela cursos adicionando os campos descrição e disponível
 
