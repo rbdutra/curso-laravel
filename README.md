@@ -26,7 +26,7 @@
 
 ### Exercício prático
 
--   Criar models em app\Models e migrations em database\migrations: Aluno, Curso, Inscricao
+-   Criar models em app\Models e migrations em database\migrations: Aluno, Curso, Inscricao [Laravel Models](https://laravel.com/docs/12.x/eloquent)
 
     > php artisan make:model Aluno -m
 
