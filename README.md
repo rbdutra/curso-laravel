@@ -280,12 +280,12 @@
         ...
     ```
 
--   Editar propriedades dos Resources
+-   Editar propriedades dos Resources [Heroicons](https://heroicons.com/)
 
     > resources
 
     ```
-    protected static ?string $navigationIcon = 'heroicon-o-list-bullet'; [Heroicons](https://heroicons.com/)
+    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
     protected static ?string $navigationLabel = 'Situação';
     protected static ?string $modelLabel = 'Situação ';
     protected static ?string $pluralModelLabel = 'Situações';
