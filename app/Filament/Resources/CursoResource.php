@@ -26,6 +26,12 @@ class CursoResource extends Resource
                 Forms\Components\TextInput::make('nome')
                     ->required()
                     ->maxLength(255),
+
+                Forms\Components\RichEditor::make('descricao')
+                    ->required()
+                    ->columnSpanFull(),
+
+                Forms\Components\Toggle::make('disponivel'),
             ]);
     }
 
@@ -34,6 +40,8 @@ class CursoResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nome'),
+                Tables\Columns\TextColumn::make('descricao'),
+                Tables\Columns\ToggleColumn::make('disponivel'),
             ])
             ->filters([
                 //

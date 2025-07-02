@@ -259,6 +259,12 @@
                 Forms\Components\TextInput::make('nome')
                     ->required()
                     ->maxLength(255),
+
+                Forms\Components\RichEditor::make('descricao')
+                    ->required()
+                    ->columnSpanFull(),
+
+                Forms\Components\Toggle::make('disponivel'),
             ]);
     }
 
@@ -267,6 +273,8 @@
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nome'),
+                Tables\Columns\TextColumn::make('descricao'),
+                Tables\Columns\TextColumn::make('disponivel'),
             ])
         ...
     ```
