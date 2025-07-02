@@ -48,9 +48,21 @@ class InscricaoResource extends Resource
                 Forms\Components\DatePicker::make('data_inscricao')
                     ->label('Data de Inscrição')
                     ->required(),
+
                 Forms\Components\TextInput::make('matricula')
                     ->label('Matrícula')
                     ->required(),
+
+                Forms\Components\Select::make('situacao_id')
+                    ->relationship('situacao', 'descricao')
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('descricao')
+                            ->required()
+                            ->maxLength(255),
+                    ]),
             ]);
     }
 

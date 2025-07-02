@@ -78,6 +78,14 @@
               $table->timestamps();
           });
 
+-   Atualizar o model inscricao situacao_id
+
+    > model
+
+        ```
+        protected $fillable = ['aluno_id', 'curso_id', 'data_inscricao', 'matricula', 'situacao_id'];
+        ```
+
 -   Atualizar tabela cursos adicionando os campos descrição e disponível
 
     > php artisan make:migration add_descricao_disponivel_table –table=curso
@@ -221,6 +229,7 @@
                         Forms\Components\RichEditor::make('endereco')
                             ->required(),
                     ]),
+
                 Forms\Components\Select::make('curso_id')
                     ->relationship('curso', 'nome')
                     ->searchable()
@@ -231,12 +240,25 @@
                             ->required()
                             ->maxLength(255),
                     ]),
+
                 Forms\Components\DatePicker::make('data_inscricao')
                     ->label('Data de Inscrição')
                     ->required(),
+
                 Forms\Components\TextInput::make('matricula')
                     ->label('Matrícula')
                     ->required(),
+
+                Forms\Components\Select::make('situacao_id')
+                    ->relationship('situacao', 'descricao')
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('descricao')
+                            ->required()
+                            ->maxLength(255),
+                    ]),
             ]);
     }
 
@@ -248,6 +270,7 @@
                 Tables\Columns\TextColumn::make('curso.nome'),
                 Tables\Columns\TextColumn::make('data_inscricao'),
                 Tables\Columns\TextColumn::make('matricula'),
+                Tables\Columns\TextColumn::make('situacao'),
             ])
         ...
     ```
