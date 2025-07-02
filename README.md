@@ -145,7 +145,7 @@
 
     > php artisan migrate
 
--   Criar os Resources e adicionar campos no form e columns em tables [Filament Resource] (https://filamentphp.com/docs/3.x/panels/resources/getting-started)
+-   Criar os Resources e adicionar campos no form e columns em tables [Filament Resource](https://filamentphp.com/docs/3.x/panels/resources/getting-started)
 
     > php artisan make:filament-resource Aluno
 
@@ -289,6 +289,8 @@
     protected static ?string $pluralModelLabel = 'Situações';
     ```
 
+-   Criar o widgets Stats para o dashboard [Filament Widget Stats](https://filamentphp.com/docs/3.x/widgets/stats-overview)
+
     > php artisan make:filament-widget StatsOverview --stats-overview
 
     ```
@@ -298,17 +300,19 @@
     {
         return [
             Stat::make('Alunos', '10.235')
-            ->description('Alunos')
-            ->descriptionIcon('heroicon-m-arrow-trending-up'),
+                ->description('Alunos')
+                ->descriptionIcon('heroicon-m-arrow-trending-up'),
             Stat::make('Cursos', '1.220')
-            ->description('Cursos')
-            ->descriptionIcon('heroicon-m-arrow-trending-up'),
+                ->description('Cursos')
+                ->descriptionIcon('heroicon-m-arrow-trending-up'),
             Stat::make('Matrículas', '10.012')
-            ->description('Matrículas')
-            ->descriptionIcon('heroicon-m-arrow-trending-up'),
+                ->description('Matrículas')
+                ->descriptionIcon('heroicon-m-arrow-trending-up'),
         ];
     }
     ```
+
+-   Criar o widgets Chats Alunos e Matrícula para o dashboard [Filament Widget Chats](https://filamentphp.com/docs/3.x/widgets/charts)
 
     > php artisan make:filament-widget DashboardAlunosChart --chart
 
