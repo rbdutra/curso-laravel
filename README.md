@@ -189,7 +189,7 @@
             });
         }
 
--   Atualizar tabela inscricao adicionando o campo situação com os dados: Pré-inscrição, Inscrição e Indeferido
+-   Atualizar tabela inscricao adicionando o campo situação com os dados: **Pré-inscrição, Inscrição e Indeferido**
 
     > php artisan make:migration add_situacao_table –table=inscricao
 
