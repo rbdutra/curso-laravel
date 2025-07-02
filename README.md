@@ -26,13 +26,15 @@
 
 ### Exercício prático
 
--   Criar models e migrations: Aluno, Curso, Inscricao
+-   Criar models em app\Models e migrations em database\migrations: Aluno, Curso, Inscricao
 
     > php artisan make:model Aluno -m
+
     > php artisan make:model Curso -m
+
     > php artisan make:model Inscricao -m
 
--   Editar as migrations em database\migrations
+-   Editar as migrations
 
     > Alunos
 
@@ -44,83 +46,95 @@
 
     > Cursos
 
-    Schema::create('cursos', function (Blueprint $table) {
-    $table->id();
-    $table->string('nome')->nullable(false)->comment('Nome do curso');
-    $table->timestamps();
-    });
-
-    > Inscrição
-
-    Schema::create('inscricao', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('aluno_id')->constrained('alunos')->onDelete('cascade')->comment('ID do aluno inscrito');
-    $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade')->comment('ID do curso inscrito');
-    $table->integer('matricula')->unique()->comment('Matrícula do aluno no curso');
-    $table->date('data_inscricao');
-    $table->timestamps();
-    });
-
--   Criar tabela situacao: id, descricao, cor (model e migration)
-    > php artisan make:model Situacao -m
-        Schema::create('situacao', function (Blueprint $table) {
+        Schema::create('cursos', function (Blueprint $table) {
             $table->id();
-            $table->string('descricao')->unique()->comment('Descrição da situação');
-            $table->string('cor')->comment('Cor');
+            $table->string('nome')->nullable(false)->comment('Nome do curso');
             $table->timestamps();
         });
 
-> php artisan make:migration add_descricao_disponivel_table –table=curso
+    > Inscrição
+
+        Schema::create('inscricao', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('aluno_id')->constrained('alunos')->onDelete('cascade')->comment('ID do aluno inscrito');
+            $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade')->comment('ID do curso inscrito');
+            $table->integer('matricula')->unique()->comment('Matrícula do aluno no curso');
+            $table->date('data_inscricao');
+            $table->timestamps();
+        });
+
+-   Criar tabela situacao: id, descricao, cor (model e migration)
+
+    > php artisan make:model Situacao -m
+
+          Schema::create('situacao', function (Blueprint $table) {
+              $table->id();
+              $table->string('descricao')->unique()->comment('Descrição da situação');
+              $table->string('cor')->comment('Cor');
+              $table->timestamps();
+          });
+
+-   Atualizar tabela cursos adicionando os campos descrição e disponível
+
+    > php artisan make:migration add_descricao_disponivel_table –table=curso
 
     public function up(): void
     {
-        Schema::table('cursos', function (Blueprint $table) {
-            $table->longText('descricao')->comment('Descrição do curso')->nullable(true);
-            $table->integer('disponivel')->default(1)->comment('Curso disponível para inscrição');
-        });
-    }
-    public function down(): void
-    {
-        Schema::table('cursos', function (Blueprint $table) {
-            $table->dropColumn('descricao');
-            $table->dropColumn('disponivel');
-        });
+    Schema::table('cursos', function (Blueprint $table) {
+    $table->longText('descricao')->comment('Descrição do curso')->nullable(true);
+    $table->integer('disponivel')->default(1)->comment('Curso disponível para inscrição');
+    });
     }
 
-> php artisan make:migration add_endereco_table –table=aluno
+    public function down(): void
+    {
+    Schema::table('cursos', function (Blueprint $table) {
+    $table->dropColumn('descricao');
+    $table->dropColumn('disponivel');
+    });
+    }
+
+-   Atualizar tabela alunos adicionando o campo endereco
+
+    > php artisan make:migration add_endereco_table –table=aluno
 
     public function up(): void
     {
-        Schema::table('alunos', function (Blueprint $table) {
-            $table->longText('endereco')->comment('Endereço do aluno')->nullable(true);
-        });
-    }
-    public function down(): void
-    {
-        Schema::table('alunos', function (Blueprint $table) {
-            $table->dropColumn('endereco');
-        });
+    Schema::table('alunos', function (Blueprint $table) {
+    $table->longText('endereco')->comment('Endereço do aluno')->nullable(true);
+    });
     }
 
-> php artisan make:migration add_situacao_table –table=inscricao
+    public function down(): void
+    {
+    Schema::table('alunos', function (Blueprint $table) {
+    $table->dropColumn('endereco');
+    });
+    }
+
+-   Atualizar tabela inscricao adicionando o campo situação com os dados: Pré-inscrição, Inscrição e Indeferido
+
+    > php artisan make:migration add_situacao_table –table=inscricao
 
     Schema::table('inscricao', function (Blueprint $table) {
-        $table->foreignId('situacao_id')
-            ->constrained('situacao')
-            ->restrictOnUpdate()
-            ->restrictOnDelete()
-            ->default(1) // Assuming 1 is the default situation ID
-            ->nullable()
-            ->comment('ID do aluno inscrito');
+    $table->foreignId('situacao_id')
+    ->constrained('situacao')
+    ->restrictOnUpdate()
+    ->restrictOnDelete()
+    ->default(1) // Assuming 1 is the default situation ID
+    ->nullable()
+    ->comment('ID do aluno inscrito');
     });
+
     public function down(): void
     {
-        Schema::table('inscricao', function (Blueprint $table) {
-            $table->dropColumn('situacao_id');
-        });
+    Schema::table('inscricao', function (Blueprint $table) {
+    $table->dropColumn('situacao_id');
+    });
     }
 
 -   Executar as migrations (criar as tabelas no banco de dados):
+
     > php artisan migrate
 
 Criar os Resources e adicionar campos no form e columns em tables:
