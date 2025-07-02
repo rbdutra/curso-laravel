@@ -19,6 +19,8 @@
 -   **[Filament 3+](https://filamentphp.com/docs/3.x/panels/installation)**
 -   **[Tailwindcss 3+](https://v3.tailwindcss.com/docs/installation)**
 -   **[Node.js](https://nodejs.org/docs/latest/api)**
+-   **[Heroicons](https://heroicons.com/)**
+-   **[Chat.js](https://www.chartjs.org/docs/latest/)**
 
 ### Repositório Github
 
@@ -283,7 +285,7 @@
     > resources
 
     ```
-    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
+    protected static ?string $navigationIcon = 'heroicon-o-list-bullet'; [Heroicons](https://heroicons.com/)
     protected static ?string $navigationLabel = 'Situação';
     protected static ?string $modelLabel = 'Situação ';
     protected static ?string $pluralModelLabel = 'Situações';
