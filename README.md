@@ -67,6 +67,8 @@
 
     > php artisan make:model Situacao -m
 
+    > migration
+
           Schema::create('situacao', function (Blueprint $table) {
               $table->id();
               $table->string('descricao')->unique()->comment('Descrição da situação');
@@ -78,21 +80,23 @@
 
     > php artisan make:migration add_descricao_disponivel_table –table=curso
 
-    public function up(): void
-    {
-    Schema::table('cursos', function (Blueprint $table) {
-    $table->longText('descricao')->comment('Descrição do curso')->nullable(true);
-    $table->integer('disponivel')->default(1)->comment('Curso disponível para inscrição');
-    });
-    }
+    > migration
 
-    public function down(): void
-    {
-    Schema::table('cursos', function (Blueprint $table) {
-    $table->dropColumn('descricao');
-    $table->dropColumn('disponivel');
-    });
-    }
+        public function up(): void
+        {
+            Schema::table('cursos', function (Blueprint $table) {
+                $table->longText('descricao')->comment('Descrição do curso')->nullable(true);
+                $table->integer('disponivel')->default(1)->comment('Curso disponível para inscrição');
+            });
+        }
+
+        public function down(): void
+        {
+            Schema::table('cursos', function (Blueprint $table) {
+                $table->dropColumn('descricao');
+                $table->dropColumn('disponivel');
+            });
+        }
 
 -   Atualizar tabela alunos adicionando o campo endereco
 
@@ -139,7 +143,7 @@
 
 Criar os Resources e adicionar campos no form e columns em tables:
 
-> php artisan make:filament-resource Aluno
+    > php artisan make:filament-resource Aluno
 
     public static function form(Form $form): Form
     {
