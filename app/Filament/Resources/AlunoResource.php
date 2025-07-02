@@ -25,6 +25,9 @@ class AlunoResource extends Resource
     protected static ?string $model = Aluno::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationLabel = 'Alunos';
+    protected static ?string $modelLabel = 'Alunos ';
+    protected static ?string $pluralModelLabel = 'Alunos';
 
     public static function getFormfieldsCep(string $description)
     {
@@ -191,5 +194,9 @@ class AlunoResource extends Resource
             'create' => Pages\CreateAluno::route('/create'),
             'edit' => Pages\EditAluno::route('/{record}/edit'),
         ];
+    }
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

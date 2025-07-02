@@ -20,8 +20,8 @@ class SituacaoResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
     protected static ?string $navigationLabel = 'Situação';
     protected static ?string $modelLabel = 'Situação ';
-    protected static ?string  $pluralModelLabel = 'Situações';
-
+    protected static ?string $pluralModelLabel = 'Situações';
+    protected static ?string $navigationGroup = 'Cadastro';
     public static function form(Form $form): Form
     {
         return $form

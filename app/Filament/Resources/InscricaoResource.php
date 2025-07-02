@@ -18,6 +18,9 @@ class InscricaoResource extends Resource
     protected static ?string $model = Inscricao::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
+    protected static ?string $navigationLabel = 'Inscrições';
+    protected static ?string $modelLabel = 'Inscrição ';
+    protected static ?string $pluralModelLabel = 'Inscrições';
 
     public static function form(Form $form): Form
     {
@@ -104,5 +107,13 @@ class InscricaoResource extends Resource
             'create' => Pages\CreateInscricao::route('/create'),
             'edit' => Pages\EditInscricao::route('/{record}/edit'),
         ];
+    }
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'primary';
     }
 }

@@ -18,6 +18,9 @@ class CursoResource extends Resource
     protected static ?string $model = Curso::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationLabel = 'Cursos';
+    protected static ?string $modelLabel = 'Cursos ';
+    protected static ?string $pluralModelLabel = 'Cursos';
 
     public static function form(Form $form): Form
     {
@@ -72,5 +75,9 @@ class CursoResource extends Resource
             'create' => Pages\CreateCurso::route('/create'),
             'edit' => Pages\EditCurso::route('/{record}/edit'),
         ];
+    }
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }
