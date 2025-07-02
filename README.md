@@ -34,7 +34,7 @@
 
     > php artisan make:model Inscricao -m
 
--   Editar as migrations
+-   Editar as migrations [Laravel Migrations](https://laravel.com/docs/12.x/migrations)
 
     > Alunos
 
@@ -145,7 +145,7 @@
 
     > php artisan migrate
 
--   Criar os Resources e adicionar campos no form e columns em tables:
+-   Criar os Resources e adicionar campos no form e columns em tables [Filament Resource] (https://filamentphp.com/docs/3.x/panels/resources/getting-started)
 
     > php artisan make:filament-resource Aluno
 
