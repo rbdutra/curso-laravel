@@ -16,4 +16,8 @@ class Inscricao extends Model
     {
         return $this->belongsTo(Curso::class, 'curso_id', 'id');
     }
+    public function situacao()
+    {
+        return $this->belongsTo(Situacao::class, 'situacao_id', 'id');
+    }
 }

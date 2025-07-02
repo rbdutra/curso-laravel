@@ -32,9 +32,60 @@
 
     > php artisan make:model Aluno -m
 
+        class Aluno extends Model
+        {
+            protected $table = 'alunos';
+            protected $fillable = ['nome', 'endereco'];
+            protected $casts = [
+                'endereco' => 'array', // Assuming endereco is stored as a JSON array
+            ];
+            public function inscricoes()
+            {
+                return $this->hasMany(Inscricao::class, 'aluno_id', 'id');
+            }
+            public function cursos()
+            {
+                return $this->belongsToMany(Curso::class, 'inscricao', 'aluno_id', 'curso_id');
+            }
+        }
+
     > php artisan make:model Curso -m
 
+        class Curso extends Model
+        {
+            protected $table = 'cursos';
+            protected $fillable = ['nome', 'descricao', 'disponivel'];
+            protected $casts = [
+                'disponivel' => 'boolean', // Assuming 'disponivel' is a boolean field
+            ];
+            public function inscricoes()
+            {
+                return $this->hasMany(Inscricao::class, 'curso_id', 'id');
+            }
+            public function alunos()
+            {
+                return $this->belongsToMany(Aluno::class, 'inscricao', 'curso_id', 'aluno_id');
+            }
+        }
+
     > php artisan make:model Inscricao -m
+
+        class Curso extends Model
+        {
+            protected $table = 'cursos';
+            protected $fillable = ['nome', 'descricao', 'disponivel'];
+            protected $casts = [
+                'disponivel' => 'boolean', // Assuming 'disponivel' is a boolean field
+            ];
+            public function inscricoes()
+            {
+                return $this->hasMany(Inscricao::class, 'curso_id', 'id');
+            }
+            public function alunos()
+            {
+                return $this->belongsToMany(Aluno::class, 'inscricao', 'curso_id', 'aluno_id');
+            }
+        }
 
 -   Editar as migrations [Laravel Migrations](https://laravel.com/docs/12.x/migrations)
 
@@ -68,6 +119,17 @@
 -   Criar tabela situacao: id, descricao, cor (model e migration)
 
     > php artisan make:model Situacao -m
+
+        class Situacao extends Model
+        {
+            protected $table = 'situacao';
+            protected $fillable = ['descricao', 'cor'];
+
+            public function inscricoes()
+            {
+                return $this->hasMany(Inscricao::class, 'situacao_id', 'id');
+            }
+        }
 
     > migration
 
