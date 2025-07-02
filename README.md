@@ -70,20 +70,21 @@
 
     > php artisan make:model Inscricao -m
 
-        class Curso extends Model
+        class Inscricao extends Model
         {
-            protected $table = 'cursos';
-            protected $fillable = ['nome', 'descricao', 'disponivel'];
-            protected $casts = [
-                'disponivel' => 'boolean', // Assuming 'disponivel' is a boolean field
-            ];
-            public function inscricoes()
+            protected $table = 'inscricao';
+            protected $fillable = ['aluno_id', 'curso_id', 'data_inscricao', 'matricula', 'situacao_id'];
+            public function aluno()
             {
-                return $this->hasMany(Inscricao::class, 'curso_id', 'id');
+                return $this->belongsTo(Aluno::class, 'aluno_id', 'id');
             }
-            public function alunos()
+            public function curso()
             {
-                return $this->belongsToMany(Aluno::class, 'inscricao', 'curso_id', 'aluno_id');
+                return $this->belongsTo(Curso::class, 'curso_id', 'id');
+            }
+            public function situacao()
+            {
+                return $this->belongsTo(Situacao::class, 'situacao_id', 'id');
             }
         }
 
