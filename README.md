@@ -102,49 +102,56 @@
 
     > php artisan make:migration add_endereco_table –table=aluno
 
-    public function up(): void
-    {
-    Schema::table('alunos', function (Blueprint $table) {
-    $table->longText('endereco')->comment('Endereço do aluno')->nullable(true);
-    });
-    }
+    > migration
 
-    public function down(): void
-    {
-    Schema::table('alunos', function (Blueprint $table) {
-    $table->dropColumn('endereco');
-    });
-    }
+        public function up(): void
+        {
+            Schema::table('alunos', function (Blueprint $table) {
+                $table->longText('endereco')->comment('Endereço do aluno')->nullable(true);
+            });
+        }
+
+        public function down(): void
+        {
+            Schema::table('alunos', function (Blueprint $table) {
+                $table->dropColumn('endereco');
+            });
+        }
 
 -   Atualizar tabela inscricao adicionando o campo situação com os dados: Pré-inscrição, Inscrição e Indeferido
 
     > php artisan make:migration add_situacao_table –table=inscricao
 
-    Schema::table('inscricao', function (Blueprint $table) {
-    $table->foreignId('situacao_id')
-    ->constrained('situacao')
-    ->restrictOnUpdate()
-    ->restrictOnDelete()
-    ->default(1) // Assuming 1 is the default situation ID
-    ->nullable()
-    ->comment('ID do aluno inscrito');
-    });
+    > migration
 
-    public function down(): void
-    {
-    Schema::table('inscricao', function (Blueprint $table) {
-    $table->dropColumn('situacao_id');
-    });
-    }
+        Schema::table('inscricao', function (Blueprint $table) {
+            $table->foreignId('situacao_id')
+                ->constrained('situacao')
+                ->restrictOnUpdate()
+                ->restrictOnDelete()
+                ->default(1) // Assuming 1 is the default situation ID
+                ->nullable()
+                ->comment('ID do aluno inscrito');
+        });
+
+        public function down(): void
+        {
+            Schema::table('inscricao', function (Blueprint $table) {
+                $table->dropColumn('situacao_id');
+            });
+        }
 
 -   Executar as migrations (criar as tabelas no banco de dados):
 
     > php artisan migrate
 
-Criar os Resources e adicionar campos no form e columns em tables:
+-   Criar os Resources e adicionar campos no form e columns em tables:
 
     > php artisan make:filament-resource Aluno
 
+    > resource
+
+    ```
     public static function form(Form $form): Form
     {
         return $form
@@ -158,6 +165,7 @@ Criar os Resources e adicionar campos no form e columns em tables:
                     ->required()
                     ->columnSpanFull(),
             ]);
+
     }
 
     public static function table(Table $table): Table
@@ -168,9 +176,11 @@ Criar os Resources e adicionar campos no form e columns em tables:
                 Tables\Columns\TextColumn::make('endereco'),
             ])
         ...
+    ```
 
-> php artisan make:filament-resource Curso
+    > php artisan make:filament-resource Curso
 
+    ```
     public static function form(Form $form): Form
     {
         return $form
@@ -188,9 +198,11 @@ Criar os Resources e adicionar campos no form e columns em tables:
                 Tables\Columns\TextColumn::make('nome'),
             ])
         ...
+    ```
 
-> php artisan make:filament-resource Inscricao
+    > php artisan make:filament-resource Inscricao
 
+    ```
     public static function form(Form $form): Form
     {
         return $form
@@ -236,9 +248,11 @@ Criar os Resources e adicionar campos no form e columns em tables:
                 Tables\Columns\TextColumn::make('matricula'),
             ])
         ...
+    ```
 
 > php artisan make:filament-resource Situacao
 
+    ```
     public static function form(Form $form): Form
     {
         return $form
@@ -262,35 +276,43 @@ Criar os Resources e adicionar campos no form e columns em tables:
                 Tables\Columns\ColorColumn::make('cor'),
             ])
         ...
+    ```
 
 -   Editar propriedades dos Resources
 
+    > resources
+
+    ```
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
     protected static ?string $navigationLabel = 'Situação';
     protected static ?string $modelLabel = 'Situação ';
     protected static ?string $pluralModelLabel = 'Situações';
+    ```
 
-> php artisan make:filament-widget StatsOverview --stats-overview
+    > php artisan make:filament-widget StatsOverview --stats-overview
 
+    ```
     protected static ?int $sort = 1;
 
     protected function getStats(): array
     {
         return [
             Stat::make('Alunos', '10.235')
-                ->description('Alunos')
-                ->descriptionIcon('heroicon-m-arrow-trending-up'),
+            ->description('Alunos')
+            ->descriptionIcon('heroicon-m-arrow-trending-up'),
             Stat::make('Cursos', '1.220')
-                ->description('Cursos')
-                ->descriptionIcon('heroicon-m-arrow-trending-up'),
+            ->description('Cursos')
+            ->descriptionIcon('heroicon-m-arrow-trending-up'),
             Stat::make('Matrículas', '10.012')
-                ->description('Matrículas')
-                ->descriptionIcon('heroicon-m-arrow-trending-up'),
+            ->description('Matrículas')
+            ->descriptionIcon('heroicon-m-arrow-trending-up'),
         ];
     }
+    ```
 
-> php artisan make:filament-widget DashboardAlunosChart --chart
+    > php artisan make:filament-widget DashboardAlunosChart --chart
 
+    ```
     protected static ?string $heading = 'Alunos por cidade';
 
     protected static ?int $sort = 2;
@@ -314,9 +336,11 @@ Criar os Resources e adicionar campos no form e columns em tables:
             'labels' => ['Vitória', 'Vila Velha', 'Serra', 'Cariacica', 'Viana'],
         ];
     }
+    ```
 
-> php artisan make:filament-widget DashboardMatriculasChart --chart
+    > php artisan make:filament-widget DashboardMatriculasChart --chart
 
+    ```
     protected static ?string $heading = 'Matrículas por mês';
     protected static ?int $sort = 3;
 
@@ -332,5 +356,6 @@ Criar os Resources e adicionar campos no form e columns em tables:
             'labels' => ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
         ];
     }
+    ```
 
-> php artisan optimize
+    > php artisan optimize
