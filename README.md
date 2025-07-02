@@ -23,3 +23,294 @@
 ### Repositório Github
 
 -   **[Curso Laravel](https://github.com/rbdutra/curso-laravel)**
+
+### Exercício prático
+
+-   Criar models e migrations: Aluno, Curso, Inscricao
+
+    > php artisan make:model Aluno -m
+    > php artisan make:model Curso -m
+    > php artisan make:model Inscricao -m
+
+-   Editar as migrations
+    > Alunos
+        Schema::create('alunos', function (Blueprint $table) {
+            $table->id();
+            $table->string('nome')->nullable(false)->comment('Nome do aluno');
+            $table->timestamps();
+        });
+
+> Cursos
+
+    Schema::create('cursos', function (Blueprint $table) {
+        $table->id();
+        $table->string('nome')->nullable(false)->comment('Nome do curso');
+        $table->timestamps();
+    });
+
+> Inscrição
+
+    Schema::create('inscricao', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('aluno_id')->constrained('alunos')->onDelete('cascade')->comment('ID do aluno inscrito');
+        $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade')->comment('ID do curso inscrito');
+        $table->integer('matricula')->unique()->comment('Matrícula do aluno no curso');
+        $table->date('data_inscricao');
+        $table->timestamps();
+    });
+
+-   Criar tabela situacao: id, descricao, cor (model e migration)
+    > php artisan make:model Situacao -m
+        Schema::create('situacao', function (Blueprint $table) {
+            $table->id();
+            $table->string('descricao')->unique()->comment('Descrição da situação');
+            $table->string('cor')->comment('Cor');
+            $table->timestamps();
+        });
+
+> php artisan make:migration add_descricao_disponivel_table –table=curso
+
+    public function up(): void
+    {
+        Schema::table('cursos', function (Blueprint $table) {
+            $table->longText('descricao')->comment('Descrição do curso')->nullable(true);
+            $table->integer('disponivel')->default(1)->comment('Curso disponível para inscrição');
+        });
+    }
+    public function down(): void
+    {
+        Schema::table('cursos', function (Blueprint $table) {
+            $table->dropColumn('descricao');
+            $table->dropColumn('disponivel');
+        });
+    }
+
+> php artisan make:migration add_endereco_table –table=aluno
+
+    public function up(): void
+    {
+        Schema::table('alunos', function (Blueprint $table) {
+            $table->longText('endereco')->comment('Endereço do aluno')->nullable(true);
+        });
+    }
+    public function down(): void
+    {
+        Schema::table('alunos', function (Blueprint $table) {
+            $table->dropColumn('endereco');
+        });
+    }
+
+> php artisan make:migration add_situacao_table –table=inscricao
+
+    Schema::table('inscricao', function (Blueprint $table) {
+        $table->foreignId('situacao_id')
+            ->constrained('situacao')
+            ->restrictOnUpdate()
+            ->restrictOnDelete()
+            ->default(1) // Assuming 1 is the default situation ID
+            ->nullable()
+            ->comment('ID do aluno inscrito');
+    });
+    public function down(): void
+    {
+        Schema::table('inscricao', function (Blueprint $table) {
+            $table->dropColumn('situacao_id');
+        });
+    }
+
+-   Executar as migrations (criar as tabelas no banco de dados):
+    > php artisan migrate
+
+Criar os Resources e adicionar campos no form e columns em tables:
+
+> php artisan make:filament-resource Aluno
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('nome')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+
+                Forms\Components\RichEditor::make('endereco')
+                    ->required()
+                    ->columnSpanFull(),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('nome'),
+                Tables\Columns\TextColumn::make('endereco'),
+            ])
+        ...
+
+> php artisan make:filament-resource Curso
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('nome')
+                    ->required()
+                    ->maxLength(255),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('nome'),
+            ])
+        ...
+
+> php artisan make:filament-resource Inscricao
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Select::make('aluno_id')
+                    ->relationship('aluno', 'nome')
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('nome')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\RichEditor::make('endereco')
+                            ->required(),
+                    ]),
+                Forms\Components\Select::make('curso_id')
+                    ->relationship('curso', 'nome')
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('nome')
+                            ->required()
+                            ->maxLength(255),
+                    ]),
+                Forms\Components\DatePicker::make('data_inscricao')
+                    ->label('Data de Inscrição')
+                    ->required(),
+                Forms\Components\TextInput::make('matricula')
+                    ->label('Matrícula')
+                    ->required(),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('aluno.nome'),
+                Tables\Columns\TextColumn::make('curso.nome'),
+                Tables\Columns\TextColumn::make('data_inscricao'),
+                Tables\Columns\TextColumn::make('matricula'),
+            ])
+        ...
+
+> php artisan make:filament-resource Situacao
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('descricao')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+
+                Forms\Components\ColorPicker::make('cor')
+                    ->required()
+                    ->columnSpanFull(),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('descricao'),
+                Tables\Columns\ColorColumn::make('cor'),
+            ])
+        ...
+
+-   Editar propriedades dos Resources
+
+    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
+    protected static ?string $navigationLabel = 'Situação';
+    protected static ?string $modelLabel = 'Situação ';
+    protected static ?string $pluralModelLabel = 'Situações';
+
+> php artisan make:filament-widget StatsOverview --stats-overview
+
+    protected static ?int $sort = 1;
+
+    protected function getStats(): array
+    {
+        return [
+            Stat::make('Alunos', '10.235')
+                ->description('Alunos')
+                ->descriptionIcon('heroicon-m-arrow-trending-up'),
+            Stat::make('Cursos', '1.220')
+                ->description('Cursos')
+                ->descriptionIcon('heroicon-m-arrow-trending-up'),
+            Stat::make('Matrículas', '10.012')
+                ->description('Matrículas')
+                ->descriptionIcon('heroicon-m-arrow-trending-up'),
+        ];
+    }
+
+> php artisan make:filament-widget DashboardAlunosChart --chart
+
+    protected static ?string $heading = 'Alunos por cidade';
+
+    protected static ?int $sort = 2;
+
+    protected function getData(): array
+    {
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Alunos por cidade',
+                    'data' => [500, 100, 51, 200, 210],
+                    'backgroundColor' => [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)',
+                        'rgb(155, 205, 86)',
+                        'rgb(55, 10, 106)',
+                    ],
+                ],
+            ],
+            'labels' => ['Vitória', 'Vila Velha', 'Serra', 'Cariacica', 'Viana'],
+        ];
+    }
+
+> php artisan make:filament-widget DashboardMatriculasChart --chart
+
+    protected static ?string $heading = 'Matrículas por mês';
+    protected static ?int $sort = 3;
+
+    protected function getData(): array
+    {
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Matriculas por mês',
+                    'data' => [0, 10, 5, 2, 21, 32, 45, 74, 65, 45, 77, 89],
+                ],
+            ],
+            'labels' => ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+        ];
+    }
+
+> php artisan optimize
