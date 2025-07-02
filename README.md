@@ -32,31 +32,33 @@
     > php artisan make:model Curso -m
     > php artisan make:model Inscricao -m
 
--   Editar as migrations
+-   Editar as migrations em database\migrations
+
     > Alunos
+
         Schema::create('alunos', function (Blueprint $table) {
             $table->id();
             $table->string('nome')->nullable(false)->comment('Nome do aluno');
             $table->timestamps();
         });
 
-> Cursos
+    > Cursos
 
     Schema::create('cursos', function (Blueprint $table) {
-        $table->id();
-        $table->string('nome')->nullable(false)->comment('Nome do curso');
-        $table->timestamps();
+    $table->id();
+    $table->string('nome')->nullable(false)->comment('Nome do curso');
+    $table->timestamps();
     });
 
-> Inscrição
+    > Inscrição
 
     Schema::create('inscricao', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('aluno_id')->constrained('alunos')->onDelete('cascade')->comment('ID do aluno inscrito');
-        $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade')->comment('ID do curso inscrito');
-        $table->integer('matricula')->unique()->comment('Matrícula do aluno no curso');
-        $table->date('data_inscricao');
-        $table->timestamps();
+    $table->id();
+    $table->foreignId('aluno_id')->constrained('alunos')->onDelete('cascade')->comment('ID do aluno inscrito');
+    $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade')->comment('ID do curso inscrito');
+    $table->integer('matricula')->unique()->comment('Matrícula do aluno no curso');
+    $table->date('data_inscricao');
+    $table->timestamps();
     });
 
 -   Criar tabela situacao: id, descricao, cor (model e migration)
