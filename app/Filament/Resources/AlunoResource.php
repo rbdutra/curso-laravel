@@ -164,14 +164,23 @@ class AlunoResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nome'),
+                // Tables\Columns\TextColumn::make('endereco.logradouro')
+                //     ->label('Logradouro')
+                //     ->searchable()
+                //     ->sortable(),
+                // Tables\Columns\TextColumn::make('endereco.localidade')
+                //     ->label('Cidade')
+                //     ->searchable()
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('endereco')
-                    ->state(function (Aluno $aluno) {
+                    ->html()
+                    ->state(function (Aluno $aluno): HtmlString {
                         $endereco = '';
                         if (is_null($aluno->endereco)) {
                             $endereco = 'Endereço não informado';
                         } else {
                             if (isset($aluno->endereco['logradouro'])) {
-                                $endereco .= $aluno->endereco['logradouro'] . ' ';
+                                $endereco .= '<span class="text-red-800 border-2 p-2">' . $aluno->endereco['logradouro'] . '</span>';
                             }
                             if (isset($aluno->endereco['complemento'])) {
                                 $endereco .= $aluno->endereco['complemento'] . ' ';
@@ -191,6 +200,12 @@ class AlunoResource extends Resource
                         }
                         return new HtmlString($endereco);
                     }),
+
+                Tables\Columns\TextColumn::make('inscricoes_count')
+                    ->label('Inscrições')
+                    ->counts('inscricoes')
+                    ->badge()
+                    ->color('success'),
             ])
             ->filters([
                 //
