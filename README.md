@@ -463,6 +463,14 @@
     > method
 
     ```
+    use Filament\Forms\Components\Actions\Action;
+    use Filament\Forms\Components\Group;
+    use Filament\Forms\Components\Section;
+    use Filament\Forms\Set;
+    use Filament\Notifications\Notification;
+    use Illuminate\Support\Facades\Http;
+
+
     public static function getFormfieldsCep(string $description)
     {
         return Section::make('Localização')
@@ -501,12 +509,12 @@
                                                 ->json();
 
                                         if ($cepData) {
-                                            $set('logradouro', $cepData['logradouro'] ?? null);
-                                            $set('complemento', $cepData['complemento'] ?? null);
-                                            $set('bairro', $cepData['bairro'] ?? null);
-                                            $set('localidade', $cepData['localidade'] ?? null);
-                                            $set('uf', $cepData['uf'] ?? null);
-                                            $set('estado', $cepData['estado'] ?? null);
+                                            $set('endereco.logradouro', $cepData['logradouro'] ?? null);
+                                            $set('endereco.complemento', $cepData['complemento'] ?? null);
+                                            $set('endereco.bairro', $cepData['bairro'] ?? null);
+                                            $set('endereco.localidade', $cepData['localidade'] ?? null);
+                                            $set('endereco.uf', $cepData['uf'] ?? null);
+                                            $set('endereco.estado', $cepData['estado'] ?? null);
                                         } else {
                                             Notification::make()
                                                 ->title('CEP não encontrado')
@@ -526,21 +534,21 @@
                         ),
                 ]),
                 Group::make()->columns(5)->schema([
-                    Forms\Components\TextInput::make('logradouro')
+                    Forms\Components\TextInput::make('endereco.logradouro')
                         ->label('Logradouro')
                         ->columnSpan([
                             'sm' => 5,
                             'xl' => 2,
                         ])
                         ->maxLength(255),
-                    Forms\Components\TextInput::make('complemento')
+                    Forms\Components\TextInput::make('endereco.complemento')
                         ->label('Complemento')
                         ->columnSpan([
                             'sm' => 5,
                             'xl' => 1,
                         ])
                         ->maxLength(255),
-                    Forms\Components\TextInput::make('bairro')
+                    Forms\Components\TextInput::make('endereco.bairro')
                         ->label('Bairro')
                         ->columnSpan([
                             'sm' => 5,
@@ -549,21 +557,21 @@
                         ->maxLength(255),
                 ]),
                 Group::make()->columns(5)->schema([
-                    Forms\Components\TextInput::make('localidade')
+                    Forms\Components\TextInput::make('endereco.localidade')
                         ->label('Cidade')
                         ->columnSpan([
                             'sm' => 5,
                             'xl' => 2,
                         ])
                         ->maxLength(255),
-                    Forms\Components\TextInput::make('uf')
+                    Forms\Components\TextInput::make('endereco.uf')
                         ->label('UF')
                         ->columnSpan([
                             'sm' => 5,
                             'xl' => 1,
                         ])
                         ->maxLength(2),
-                    Forms\Components\TextInput::make('estado')
+                    Forms\Components\TextInput::make('endereco.estado')
                         ->label('Estado')
                         ->columnSpan([
                             'sm' => 5,
@@ -589,4 +597,42 @@
                     ->columnSpanFull(),
 
                 static::getFormfieldsCep('Preencha o CEP para buscar os dados de endereço automaticamente'),
+    ```
+
+    > table
+
+    ```
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('nome'),
+                Tables\Columns\TextColumn::make('endereco')
+                    ->state(function (Aluno $aluno) {
+                        $endereco = '';
+                        if (is_null($aluno->endereco)) {
+                            $endereco = 'Endereço não informado';
+                        } else {
+                            if (isset($aluno->endereco['logradouro'])) {
+                                $endereco .= $aluno->endereco['logradouro'] . ' ';
+                            }
+                            if (isset($aluno->endereco['complemento'])) {
+                                $endereco .= $aluno->endereco['complemento'] . ' ';
+                            }
+                            if (isset($aluno->endereco['bairro'])) {
+                                $endereco .= $aluno->endereco['bairro'] . ' ';
+                            }
+                            if (isset($aluno->endereco['localidade'])) {
+                                $endereco .= $aluno->endereco['localidade'] . ' ';
+                            }
+                            if (isset($aluno->endereco['uf'])) {
+                                $endereco .= $aluno->endereco['uf'] . ' ';
+                            }
+                            if (isset($aluno->endereco['estado'])) {
+                                $endereco .= $aluno->endereco['estado'] . ' ';
+                            }
+                        }
+                        return new HtmlString($endereco);
+                    }),
+            ])
     ```
