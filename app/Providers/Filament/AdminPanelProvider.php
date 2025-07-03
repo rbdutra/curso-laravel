@@ -42,11 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Cadastro')
-                    // ->icon('heroicon-o-shopping-cart')
                     ->collapsed()
-                    ->extraSidebarAttributes([
-                        'class' => 'border-2 rounded-md bg-sky-500 dark:bg-gray-900',
-                    ]),
             ])
             // ->topNavigation()
             ->sidebarCollapsibleOnDesktop()

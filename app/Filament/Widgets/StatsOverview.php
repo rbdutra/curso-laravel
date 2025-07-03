@@ -12,9 +12,7 @@ class StatsOverview extends BaseWidget
 {
     protected static ?int $sort = 1;
     protected static ?string $pollingInterval = '10s';
-    protected ?string $heading = 'Analytics';
 
-    protected ?string $description = 'An overview of some analytics.';
     protected function getStats(): array
     {
         $alunos = Aluno::count();

@@ -11,6 +11,7 @@ class DashboardAlunosChart extends ChartWidget
 
     protected function getData(): array
     {
+
         return [
             'datasets' => [
                 [
