@@ -149,7 +149,7 @@
 
 -   Atualizar tabela cursos adicionando os campos descrição e disponível
 
-    > php artisan make:migration add_descricao_disponivel_table –table=curso
+    > php artisan make:migration add_descricao_disponivel_table –-table=curso
 
     > migration
 
@@ -171,7 +171,7 @@
 
 -   Atualizar tabela alunos adicionando o campo endereco
 
-    > php artisan make:migration add_endereco_table –table=aluno
+    > php artisan make:migration add_endereco_table –-table=aluno
 
     > migration
 
@@ -191,7 +191,7 @@
 
 -   Atualizar tabela inscricao adicionando o campo situação com os dados: **Pré-inscrição, Inscrição e Indeferido**
 
-    > php artisan make:migration add_situacao_table –table=inscricao
+    > php artisan make:migration add_situacao_table –-table=inscricao
 
     > migration
 
