@@ -789,3 +789,171 @@
 
     </x-filament-panels::page>
     ```
+
+-   Editando as rotas
+
+    > routes\web.php
+
+    ```
+    Route::group(['prefix' => 'relatorio'], function () {
+        Route::get('/alunos/{aluno_id}', [RelatorioController::class, 'cursosDoAluno'])->name('relatorio.cursosdoaluno');
+        Route::get('/curso/{curso_id}', [RelatorioController::class, 'alunosDoCurso'])->name('relatorio.alunosdocurso');
+        Route::get('/inscricao/{inicio}/{termino}', [RelatorioController::class, 'inscricaoPeriodo'])->name('relatorio.inscricaoperiodo');
+    });
+    ```
+
+-   Criando os relatórios
+
+    -   Crie a pasta resources\views\relatorio
+
+    -   Crie o Controller app\Http\Controllers\RelatorioController.php
+
+    ```
+    namespace App\Http\Controllers;
+
+    use App\Models\Aluno;
+    use App\Models\Curso;
+    use App\Models\Inscricao;
+    use Carbon\Carbon;
+    use Illuminate\Http\Request;
+    use Illuminate\View\View;
+
+    class RelatorioController extends Controller
+    {
+        public function cursosDoAluno($aluno_id): View
+        {
+            $aluno = Aluno::find($aluno_id);
+            $dados = Inscricao::where('aluno_id', '=', $aluno_id)->get();
+            return view('relatorio.relatorio-cursosdoaluno', [
+                'aluno' => $aluno,
+                'dados' => $dados,
+            ]);
+        }
+        public function alunosDoCurso($curso_id): View
+        {
+            $curso = Curso::find($curso_id);
+            $dados = Inscricao::where('curso_id', '=', $curso_id)->get();
+
+            return view('relatorio.relatorio-alunosdocurso', [
+                'curso' => $curso,
+                'dados' => $dados,
+            ]);
+        }
+        public function inscricaoPeriodo($inicio, $termino): View
+        {
+            $dados = Inscricao::whereRaw("data_inscricao BETWEEN '{$inicio}' and '{$termino}'")->get();
+            $inicio = Carbon::parse($inicio);
+            $termino = Carbon::parse($termino);
+
+            return view('relatorio.relatorio-inscricoesrealizadasnoperiodo', [
+                'inicio' => $inicio->format('d/m/Y'),
+                'termino' => $termino->format('d/m/Y'),
+                'dados' => $dados,
+            ]);
+        }
+    }
+    ```
+
+    -   Crie o arquivo resources\views\relatorio\report.blade.php
+
+    ```
+    <!DOCTYPE html>
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <title>Relatório</title>
+
+            <!-- Fonts -->
+            <link rel="preconnect" href="https://fonts.bunny.net">
+            <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+
+            @vite('resources/css/app.css')
+        </head>
+        <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex items-center lg:justify-center flex-col">
+            <div class="border-slate-200 rounded-lg my-1 border-2 w-96 p-2">Cabeçalho do Sistema</div>
+            <div class="p-2 border-slate-200 rounded-lg my-1 border-2 w-96">
+                @yield('content')
+            </div>
+            <div class="border-slate-200 rounded-lg my-1 border-2 w-96 p-2">Rodapé</div>
+        </body>
+    </html>
+    ```
+
+    -   Crie o arquivo resources\views\relatorio\relatorio-alunosdocurso.blade.php
+
+    ```
+    @extends('relatorio.report')
+
+    @section('content')
+    <div>
+        @if ($dados)
+        <h2>Curso: {{ $curso->nome }}</h2>
+
+        <ul>
+            @foreach ($dados as $row)
+            <li>{{ $row->aluno->nome }}</li>
+            @endforeach
+        </ul>
+        @else
+        <h3>Nenhum registro encontrado</h3>
+        @endif
+    </div>
+    @endsection
+    ```
+
+    -   Crie o arquivo resources\views\relatorio\relatorio-cursosdoaluno.blade.php
+
+    ```
+    @extends('relatorio.report')
+
+    @section('content')
+    <div>
+        @if ($dados)
+        <h2>Aluno: {{ $aluno->nome }}</h2>
+
+        <ul>
+            @foreach ($dados as $row)
+            <li>{{ $row->curso->nome }}</li>
+            @endforeach
+        </ul>
+        @else
+        <h3>Nenhum registro encontrado</h3>
+        @endif
+    </div>
+    @endsection
+    ```
+
+    -   Crie o arquivo resources\views\relatorio\relatorio-inscricoesrealizadasnoperiodo.blade.php
+
+    ```
+    @extends('relatorio.report')
+
+    @section('content')
+    <div>
+        <h2>Período: {{ $inicio }} a {{ $termino }}</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Curso</th>
+                    <th>Aluno</th>
+                    <th>Data Matrícula</th>
+                    <th>Matrícula</th>
+                </tr>
+            </thead>
+            @foreach ($dados as $inscricao)
+            <tbody>
+                <tr>
+                    <th>{{ $inscricao->curso->nome }}</th>
+                    <th>{{ $inscricao->aluno->nome }}</th>
+                    <th>{{ $inscricao->data_inscricao }}</th>
+                    <th>{{ $inscricao->matricula }}</th>
+                </tr>
+            </tbody>
+            @endforeach
+        </table>
+    </div>
+    @endsection
+    ```
