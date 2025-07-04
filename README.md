@@ -637,7 +637,7 @@
             ])
     ```
 
--   Criando Filament Custom Page Relatorios
+-   Criando Filament Custom Page Relatorios [Filament Custom Page](https://filamentphp.com/docs/3.x/panels/pages)
 
     > php artisan make:filament-page Relatorios
 
@@ -775,7 +775,7 @@
     }
     ```
 
-    > resources\views\filament\pages\relatorios.blade.php
+    > resources\views\filament\pages\relatorios.blade.php [Filament Blade Components](https://filamentphp.com/docs/3.x/support/blade-components/overview)
 
     ```
     <x-filament-panels::page>
@@ -790,7 +790,7 @@
     </x-filament-panels::page>
     ```
 
--   Editando as rotas
+-   Editando as rotas [Laravel Route](https://laravel.com/docs/12.x/routing)
 
     > routes\web.php
 
@@ -806,7 +806,7 @@
 
     -   Crie a pasta resources\views\relatorio
 
-    -   Crie o Controller app\Http\Controllers\RelatorioController.php
+    -   Crie o Controller app\Http\Controllers\RelatorioController.php [Laravel Controllers](https://laravel.com/docs/12.x/controllers)
 
     ```
     namespace App\Http\Controllers;
@@ -854,7 +854,7 @@
     }
     ```
 
-    -   Crie o arquivo resources\views\relatorio\report.blade.php
+    -   Crie o arquivo resources\views\relatorio\report.blade.php [Laravel Blade](https://laravel.com/docs/12.x/blade)
 
     ```
     <!DOCTYPE html>
