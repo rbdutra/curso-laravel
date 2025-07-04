@@ -695,7 +695,7 @@
                                 ])
                                 ->inline()
                                 ->inlineLabel(false)
-                                // ->default(1)
+                                ->default(1)
                                 ->live()
                                 ->columnSpanFull(),
 
@@ -743,20 +743,21 @@
                     ->label('Imprimir')
                     ->icon('heroicon-o-printer')
                     ->url(function (): string {
+                        $link = '';
                         switch ($this->reportData['relatorio']) {
                             case 1:
                                 $aluno_id = 0;
                                 if ($this->reportData['aluno_id'])
                                     $aluno_id = $this->reportData['aluno_id'];
 
-                                $link = "/relatorio/alunos/{$aluno_id}";
+                                $link = route('relatorio.cursosdoaluno', ['aluno_id' => $aluno_id]);
                                 break;
                             case 2:
                                 $curso_id = 0;
                                 if ($this->reportData['curso_id'])
                                     $curso_id = $this->reportData['curso_id'];
 
-                                $link = "/relatorio/curso/{$curso_id}";
+                                $link = route('relatorio.alunosdocurso', ['curso_id' => $curso_id]);
                                 break;
                             case 3:
                                 $inicio = 0;
@@ -766,7 +767,7 @@
                                 if ($this->reportData['termino'])
                                     $termino = $this->reportData['termino'];
 
-                                $link = "/relatorio/inscricao/{$inicio}/{$termino}";
+                                $link = route('relatorio.inscricaoPeriodo', ['inicio' => $inicio, 'termino' => $termino]);
                         }
                         return $link;
                     }, true),
