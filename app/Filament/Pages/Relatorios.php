@@ -123,7 +123,7 @@ class Relatorios extends Page implements HasForms
                             if ($this->reportData['termino'])
                                 $termino = $this->reportData['termino'];
 
-                            $link = route('relatorio.inscricaoPeriodo', ['inicio' => $inicio, 'termino' => $termino]);
+                            $link = route('relatorio.inscricaoperiodo', ['inicio' => $inicio, 'termino' => $termino]);
                     }
                     return $link;
                 }, true),

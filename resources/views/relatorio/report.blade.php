@@ -12,7 +12,7 @@
 
         @vite('resources/css/app.css')
     </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex items-center lg:justify-center flex-col">
+    <body class="flex items-center lg:justify-center flex-col">
         <div class="border-slate-200 rounded-lg my-1 border-2 w-96 p-2">Cabeçalho do Sistema</div>
         <div class="p-2 border-slate-200 rounded-lg my-1 border-2 w-96">
             @yield('content')
