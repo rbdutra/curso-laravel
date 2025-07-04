@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\EscolaCluster;
 use App\Filament\Resources\CursoResource\Pages;
 use App\Filament\Resources\CursoResource\RelationManagers;
 use App\Models\Curso;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,7 +18,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class CursoResource extends Resource
 {
     protected static ?string $model = Curso::class;
-
+    protected static ?string $cluster = EscolaCluster::class;
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
     protected static ?string $navigationLabel = 'Cursos';
     protected static ?string $modelLabel = 'Cursos ';

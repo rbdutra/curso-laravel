@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\EscolaCluster;
 use App\Filament\Resources\InscricaoResource\Pages;
 use App\Filament\Resources\InscricaoResource\RelationManagers;
 use App\Models\Inscricao;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,7 +18,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class InscricaoResource extends Resource
 {
     protected static ?string $model = Inscricao::class;
-
+    protected static ?string $cluster = EscolaCluster::class;
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
     protected static ?string $navigationLabel = 'Inscrições';
     protected static ?string $modelLabel = 'Inscrição ';

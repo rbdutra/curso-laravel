@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\EscolaCluster;
 use App\Filament\Resources\AlunoResource\Pages;
 use App\Filament\Resources\AlunoResource\RelationManagers;
 use App\Models\Aluno;
@@ -13,6 +14,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -25,6 +27,8 @@ class AlunoResource extends Resource
 {
     protected static ?string $model = Aluno::class;
 
+    protected static ?string $cluster = EscolaCluster::class;
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationLabel = 'Alunos';
     protected static ?string $modelLabel = 'Alunos ';
