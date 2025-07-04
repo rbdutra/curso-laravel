@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\RelatorioController;
 use App\Livewire\Counter;
 
 Route::get('/', function () {
@@ -44,3 +45,9 @@ Route::group(['prefix' => 'curso'], function () {
 });
 
 Route::get('/counter', Counter::class)->name('counter');
+
+Route::group(['prefix' => 'relatorio'], function () {
+    Route::get('/alunos/{aluno_id}', [RelatorioController::class, 'cursosDoAluno'])->name('relatorio.cursosdoaluno');
+    Route::get('/curso/{curso_id}', [RelatorioController::class, 'alunosDoCurso'])->name('relatorio.alunosdocurso');
+    Route::get('/inscricao/{inicio}/{termino}', [RelatorioController::class, 'inscricaoPeriodo'])->name('relatorio.inscricaoperiodo');
+});
